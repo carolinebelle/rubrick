@@ -16,6 +16,7 @@ class _CreateContestState extends State<CreateContest> {
     return SafeArea(
       child: Column(
         children: [
+          const Text('create contest flow'),
           GestureDetector(
             onTap: () {
               widget.callback(false);
