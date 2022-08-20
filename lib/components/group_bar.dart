@@ -158,6 +158,9 @@ class _GroupBarState extends State<GroupBar> {
 
   List<Widget> buildApplicants() {
     return replaceWithFirebase
+        .where((applicant) {
+          return applicant.toLowerCase().contains(searchText.toLowerCase());
+        })
         .map((name) => ApplicantListItem(name: name))
         .toList();
   }
