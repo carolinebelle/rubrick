@@ -57,16 +57,14 @@ class _GroupBarState extends State<GroupBar> {
           padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-            // crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(widget.title,
                   style: Theme.of(context)
                       .textTheme
                       .headline5!
                       .apply(fontWeightDelta: 2)),
-              Icon(Icons.expand_circle_down,
-                  color: Theme.of(context).colorScheme.onSecondaryContainer)
+              Icon(Icons.expand_more,
+                  color: Theme.of(context).colorScheme.onSecondary)
             ],
           ),
         ),
@@ -129,7 +127,9 @@ class _GroupBarState extends State<GroupBar> {
                                 ? widget.index % 2 == 0
                                     ? Theme.of(context).colorScheme.secondary
                                     : Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.background),
+                                : Theme.of(context)
+                                    .colorScheme
+                                    .onPrimaryContainer),
                       ),
                     ),
                   ],
@@ -139,15 +139,10 @@ class _GroupBarState extends State<GroupBar> {
                     runSpacing: 5,
                     children: buildApplicants()),
                 ExpandableButton(
-                  child: Transform.rotate(
-                    angle: 180 * math.pi / 180,
-                    child: IconButton(
-                      icon: Icon(Icons.expand_circle_down,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSecondaryContainer),
-                      onPressed: null,
-                    ),
+                  child: IconButton(
+                    icon: Icon(Icons.expand_less,
+                        color: Theme.of(context).colorScheme.onSecondary),
+                    onPressed: null,
                   ),
                 ),
               ],
@@ -161,7 +156,7 @@ class _GroupBarState extends State<GroupBar> {
         .where((applicant) {
           return applicant.toLowerCase().contains(searchText.toLowerCase());
         })
-        .map((name) => ApplicantListItem(name: name))
+        .map((name) => ApplicantListItem(name: name, groupIndex: widget.index))
         .toList();
   }
 }

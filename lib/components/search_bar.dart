@@ -32,7 +32,8 @@ class _SearchBarState extends State<SearchBar> {
             cursorColor: Theme.of(context).colorScheme.background,
             maxLines: 1,
             decoration: InputDecoration(
-              suffixIcon: const Icon(Icons.search),
+              suffixIcon: Icon(Icons.search,
+                  color: Theme.of(context).colorScheme.background),
               suffixIconColor: Theme.of(context).colorScheme.background,
               hintText: 'Search for an applicant',
               hintStyle: Theme.of(context)
