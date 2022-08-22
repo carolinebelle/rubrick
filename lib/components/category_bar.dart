@@ -91,7 +91,6 @@ class _CategoryBarState extends State<CategoryBar> {
           padding: const EdgeInsets.all(10),
           child: TextFormField(
             initialValue: notes,
-            autofocus: true,
             onChanged: (value) {
               // widget.onChange(value);
               setState(() {
@@ -101,7 +100,7 @@ class _CategoryBarState extends State<CategoryBar> {
             cursorColor: Theme.of(context).colorScheme.onSecondary,
             maxLines: null,
             decoration: InputDecoration(
-              hintText: 'Notes...',
+              hintText: 'Notes to share during discussion...',
               hintStyle: Theme.of(context)
                   .textTheme
                   .bodyLarge!

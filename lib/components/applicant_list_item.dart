@@ -20,70 +20,74 @@ class ApplicantListItem extends StatefulWidget {
 class _ApplicantListItemState extends State<ApplicantListItem> {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        _gotoDetailsPage(context, widget.name, widget.groupIndex, gradeIndices);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.background,
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-              width: 4,
-              color: widget.groupIndex % 2 == 0
-                  ? Theme.of(context).colorScheme.secondary
-                  : Theme.of(context).colorScheme.primary),
-        ),
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Text(
-                  widget.name,
-                  style: Theme.of(context).textTheme.headline6,
-                  overflow: TextOverflow.fade,
-                  softWrap: false,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: () {
+          _gotoDetailsPage(
+              context, widget.name, widget.groupIndex, gradeIndices);
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.background,
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+                width: 4,
+                color: widget.groupIndex % 2 == 0
+                    ? Theme.of(context).colorScheme.secondary
+                    : Theme.of(context).colorScheme.primary),
+          ),
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Text(
+                    widget.name,
+                    style: Theme.of(context).textTheme.headline6,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                  ),
                 ),
-              ),
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 1,
-                children: [
-                  Hero(
-                    tag:
-                        '${widget.name}-${widget.groupIndex}-selected-achievement',
-                    child: GradeBox(
-                      grade: grades[gradeIndices[0]],
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 1,
+                  children: [
+                    Hero(
+                      tag:
+                          '${widget.name}-${widget.groupIndex}-selected-achievement',
+                      child: GradeBox(
+                        grade: grades[gradeIndices[0]],
+                      ),
                     ),
-                  ),
-                  Hero(
-                    tag:
-                        '${widget.name}-${widget.groupIndex}-selected-technical',
-                    child: GradeBox(
-                      grade: grades[gradeIndices[1]],
+                    Hero(
+                      tag:
+                          '${widget.name}-${widget.groupIndex}-selected-technical',
+                      child: GradeBox(
+                        grade: grades[gradeIndices[1]],
+                      ),
                     ),
-                  ),
-                  Hero(
-                    tag:
-                        '${widget.name}-${widget.groupIndex}-selected-academic',
-                    child: GradeBox(
-                      grade: grades[gradeIndices[2]],
+                    Hero(
+                      tag:
+                          '${widget.name}-${widget.groupIndex}-selected-academic',
+                      child: GradeBox(
+                        grade: grades[gradeIndices[2]],
+                      ),
                     ),
-                  ),
-                  Hero(
-                    tag:
-                        '${widget.name}-${widget.groupIndex}-selected-personality',
-                    child: GradeBox(
-                      grade: grades[gradeIndices[3]],
+                    Hero(
+                      tag:
+                          '${widget.name}-${widget.groupIndex}-selected-personality',
+                      child: GradeBox(
+                        grade: grades[gradeIndices[3]],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

@@ -2,7 +2,10 @@ import "package:flutter/material.dart";
 import 'package:rubrick/components/contest_list_item.dart';
 import 'package:rubrick/widgets/create_contest.dart';
 
+import '../responsive/dimensions.dart';
+
 //  Side drawer can be in list mode or create mode
+const contestTitles = ["Fellows 2022-23", "Fellows 2023-34"];
 
 class SideDrawer extends StatefulWidget {
   const SideDrawer({Key? key}) : super(key: key);
@@ -22,61 +25,36 @@ class _SideDrawerState extends State<SideDrawer> {
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      backgroundColor: Theme.of(context).colorScheme.surface,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          bottomRight: Radius.circular(30),
-          topRight: Radius.circular(30),
-        ),
-      ),
-      child: isCreating ? buildCreateFlow() : buildContestList(context),
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      return Padding(
+        padding: const EdgeInsets.all(20),
+        child: isCreating ? buildCreateFlow() : buildContestList(context),
+      );
+    });
   }
 
   Widget buildContestList(BuildContext context) => Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surface.withAlpha(100),
-                borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(30),
-                ),
-              ),
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20.0, horizontal: 5.0),
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      isCreating = true;
-                    });
-                  },
-                  child: SafeArea(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Icon(Icons.add,
-                            color: Theme.of(context).colorScheme.onBackground),
-                        const Padding(padding: EdgeInsets.all(5)),
-                        Text(
-                          'Create New',
-                          style: Theme.of(context).textTheme.headline5,
-                        ),
-                      ],
-                    ),
-                  ),
+            SafeArea(
+              child: TextButton(
+                onPressed: () {
+                  setState(() {
+                    isCreating = true;
+                  });
+                },
+                child: const Text(
+                  'Create New',
                 ),
               ),
             ),
             Expanded(
               child: ListView.separated(
-                itemCount: 4,
-                itemBuilder: (context, index) => const ContestListItem(),
+                itemCount: contestTitles.length,
+                itemBuilder: (context, index) => ContestListItem(
+                  title: contestTitles[index],
+                ),
                 separatorBuilder: (context, index) => const SizedBox(
                   height: 10,
                 ),

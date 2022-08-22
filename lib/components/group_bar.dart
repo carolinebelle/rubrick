@@ -1,6 +1,5 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-import 'dart:math' as math;
 
 import 'package:rubrick/components/applicant_list_item.dart';
 import 'package:rubrick/components/search_bar.dart';
@@ -140,6 +139,7 @@ class _GroupBarState extends State<GroupBar> {
                     children: buildApplicants()),
                 ExpandableButton(
                   child: IconButton(
+                    mouseCursor: SystemMouseCursors.click,
                     icon: Icon(Icons.expand_less,
                         color: Theme.of(context).colorScheme.onSecondary),
                     onPressed: null,

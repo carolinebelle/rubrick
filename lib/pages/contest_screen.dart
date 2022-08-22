@@ -13,16 +13,7 @@ class ContestScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Theme.of(context).colorScheme.background,
-                    blurRadius: 10,
-                  ),
-                ],
-              ),
+            Center(
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
