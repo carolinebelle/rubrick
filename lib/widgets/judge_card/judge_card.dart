@@ -25,7 +25,6 @@ class _JudgeCardState extends State<JudgeCard> {
   int category = 0;
   @override
   Widget build(BuildContext context) {
-    ColorScheme colors = Theme.of(context).colorScheme;
     return RoundedBorder(
       group: 3,
       child: Padding(
@@ -33,7 +32,6 @@ class _JudgeCardState extends State<JudgeCard> {
         child: Column(
           children: [
             JudgeTracker(turn),
-            Divider(color: colors.primary, thickness: 5),
             for (int i = 0; i < widget.categories.length; i++)
               Category(
                   title: widget.categories[i],

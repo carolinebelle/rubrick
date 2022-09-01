@@ -53,7 +53,8 @@ class _CategoryState extends State<Category> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        for (int i = 0; i < 8; i++) const DetailedGrade()
+                        for (int i = 0; i < 8; i++)
+                          DetailedGrade(revealed: i % 2 == 0 || i == 3)
                       ],
                     ),
                   ),
