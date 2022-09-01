@@ -28,6 +28,7 @@ class ContestScreen extends StatelessWidget {
             ),
             Expanded(
                 child: ListView.separated(
+                    primary: false,
                     itemBuilder: (context, index) => GroupBar(
                         title: replaceWithFirebase[index], index: index),
                     separatorBuilder: (context, index) =>

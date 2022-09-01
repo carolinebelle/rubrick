@@ -29,6 +29,7 @@ class _RankableListState extends State<RankableList> {
   @override
   Widget build(BuildContext context) {
     return ReorderableListView(
+      primary: false,
       children: <Widget>[
         for (int index = 0; index < rankings.length; index += 1)
           ApplicantSummary(

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'grade_picker.dart';
@@ -20,7 +22,9 @@ class CategoryBar extends StatefulWidget {
 }
 
 class _CategoryBarState extends State<CategoryBar> {
-  bool open = false;
+  bool open = (window.physicalSize.height / window.devicePixelRatio) > 700
+      ? true
+      : false;
   String notes = "";
   @override
   Widget build(BuildContext context) {
@@ -42,11 +46,20 @@ class _CategoryBarState extends State<CategoryBar> {
                       open = !open;
                     });
                   },
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: Text(
-                      widget.title,
-                      textAlign: TextAlign.center,
+                  child: MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        widget.title,
+                        textAlign: TextAlign.center,
+                        style: MediaQuery.of(context).size.height > 700
+                            ? Theme.of(context)
+                                .textTheme
+                                .headline6!
+                                .apply(fontWeightDelta: 2)
+                            : null,
+                      ),
                     ),
                   ),
                 ),

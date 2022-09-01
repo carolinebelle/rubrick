@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:rubrick/components/applicant_photo.dart';
 import 'package:rubrick/components/category_bar.dart';
 
 import '../responsive/dimensions.dart';
@@ -39,27 +40,10 @@ class _ApplicantCardState extends State<ApplicantCard> {
         Padding(
           padding: const EdgeInsets.all(10),
           child: Center(
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.25,
-              decoration: BoxDecoration(
-                border: Border.all(
-                    width: 4,
-                    color: widget.groupIndex % 2 == 0
-                        ? Theme.of(context).colorScheme.secondary
-                        : Theme.of(context).colorScheme.primary),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(16),
-                child: AspectRatio(
-                  aspectRatio: 1 / 1,
-                  child: Image.asset(
-                    'lib/assets/profile.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ),
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.25,
+                child: ApplicantPhoto(
+                    name: 'lib/assets/profile.png', group: widget.groupIndex)),
           ),
         ),
         const SizedBox(height: 10),
@@ -84,30 +68,13 @@ class _ApplicantCardState extends State<ApplicantCard> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Flexible(
-              child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                  width: 4,
-                  color: widget.groupIndex % 2 == 0
-                      ? Theme.of(context).colorScheme.secondary
-                      : Theme.of(context).colorScheme.primary),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: AspectRatio(
-                aspectRatio: 1 / 1,
-                child: Image.asset(
-                  'lib/assets/profile.png',
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-          )),
+              child: ApplicantPhoto(
+                  name: 'lib/assets/profile.png', group: widget.groupIndex)),
           const SizedBox(width: 50),
           Flexible(
             child: Center(
               child: ListView(
+                primary: false,
                 children: [
                   for (int index = 0;
                       index < widget.categories.length;

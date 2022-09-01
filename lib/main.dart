@@ -1,8 +1,11 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:rubrick/pages/contest_screen.dart';
 import 'package:rubrick/widgets/side_drawer.dart';
 
 import 'colors/color_scheme.dart';
+import 'pages/round_table.dart';
 import 'responsive/dimensions.dart';
 import 'widgets/rankable_list.dart';
 
@@ -64,6 +67,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   bool myTurn = false;
   bool rankingAvailable = true;
+  bool groupScreenAvailable =
+      (window.physicalSize.height / window.devicePixelRatio) > 500;
   void _actionButtonPress() {
     print("To be implemented");
   }
@@ -120,12 +125,18 @@ class _MyHomePageState extends State<MyHomePage> {
           Flexible(
             flex: 1,
             child: Container(
-              color: colorScheme.tertiary,
+              decoration: BoxDecoration(
+                color: colorScheme.tertiary.withAlpha(100),
+                borderRadius: const BorderRadius.only(
+                  bottomRight: Radius.circular(30),
+                  topRight: Radius.circular(30),
+                ),
+              ),
               child: const SideDrawer(),
             ),
           ),
           Flexible(
-            flex: 2,
+            flex: 3,
             child: ContestScreen(contestID: widget.contestID),
           ),
         ],
@@ -143,6 +154,18 @@ class _MyHomePageState extends State<MyHomePage> {
                   Theme.of(context).colorScheme.onSecondaryContainer,
               child: const Icon(Icons.campaign),
             ),
+          if (groupScreenAvailable)
+            FloatingActionButton(
+              heroTag: "group",
+              onPressed: () {
+                _gotoRoundTablePage(context);
+              },
+              tooltip: 'Round table',
+              backgroundColor: Theme.of(context).colorScheme.onBackground,
+              foregroundColor: Theme.of(context).colorScheme.onPrimaryContainer,
+              child: const Icon(Icons.people),
+            ),
+          if (groupScreenAvailable && rankingAvailable) SizedBox(height: 10),
           if (rankingAvailable)
             FloatingActionButton(
               heroTag: "rank",
@@ -191,6 +214,42 @@ class _MyHomePageState extends State<MyHomePage> {
               "Blimey",
             ],
           ),
+          floatingActionButton: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              FloatingActionButton(
+                heroTag: "yes",
+                onPressed: _actionButtonPress,
+                tooltip: 'Yes',
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                child: const Icon(Icons.thumb_up),
+              ),
+              const SizedBox(height: 10),
+              FloatingActionButton(
+                heroTag: "no",
+                onPressed: _actionButtonPress,
+                tooltip: 'No',
+                backgroundColor: Theme.of(context).colorScheme.tertiary,
+                foregroundColor: Theme.of(context).colorScheme.onTertiary,
+                child: const Icon(Icons.thumb_down),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _gotoRoundTablePage(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (BuildContext context) => Scaffold(
+          backgroundColor: Theme.of(context).colorScheme.background,
+          appBar: AppBar(
+            title: const Text("Round Table"),
+            backgroundColor: Theme.of(context).colorScheme.tertiary,
+          ),
+          body: const RoundTable(),
           floatingActionButton: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [

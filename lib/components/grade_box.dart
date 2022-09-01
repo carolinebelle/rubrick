@@ -28,15 +28,18 @@ class GradeBox extends StatelessWidget {
                 color: Theme.of(context).colorScheme.onTertiary, width: 3)
             : null,
       ),
-      child: Center(
-        child: Text(
-          grade,
-          style: (isSmall
-                  ? Theme.of(context).textTheme.headline6
-                  : Theme.of(context).textTheme.headline5)!
-              .apply(
-                  color: Theme.of(context).colorScheme.onTertiary,
-                  fontWeightDelta: 2),
+      child: AspectRatio(
+        aspectRatio: 1 / 1,
+        child: Center(
+          child: Text(
+            grade,
+            style: (isSmall
+                    ? Theme.of(context).textTheme.headline6
+                    : Theme.of(context).textTheme.headline5)!
+                .apply(
+                    color: Theme.of(context).colorScheme.onTertiary,
+                    fontWeightDelta: 2),
+          ),
         ),
       ),
     );

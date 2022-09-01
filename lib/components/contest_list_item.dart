@@ -2,17 +2,47 @@ import "package:flutter/material.dart";
 
 class ContestListItem extends StatelessWidget {
   final String title;
-  const ContestListItem({Key? key, required this.title}) : super(key: key);
+  final void Function(String contestID) callback;
+  final bool selected;
+  const ContestListItem(
+      {Key? key,
+      required this.title,
+      required this.callback,
+      required this.selected})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      tileColor: Theme.of(context).colorScheme.onSurface,
-      title: Center(
-          child: Text(title, style: Theme.of(context).textTheme.headline5)),
-      onTap: () {
-        print("To be implemented");
-      },
+    ColorScheme colors = Theme.of(context).colorScheme;
+    TextTheme text = Theme.of(context).textTheme;
+    return Container(
+      color: selected
+          ? colors.onPrimary.withAlpha(200)
+          : colors.onPrimary.withAlpha(100),
+      child: InkWell(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Text(title,
+                style: text.headline5!.apply(
+                    color:
+                        selected ? colors.onError : colors.onErrorContainer)),
+          ),
+        ),
+        onTap: () {
+          callback(title);
+        },
+      ),
     );
+    // return ListTile(
+    //   tileColor: selected ? Colors.red : colors.onSurface,
+    //   hoverColor: colors.onSurface.withAlpha(100),
+    //   contentPadding: const EdgeInsets.all(30),
+    //   selected: selected,
+    //   title: Center(child: Text(title, style: text.headline5)),
+    //   onTap: () {
+    //     callback(title);
+    //   },
+    // );
   }
 }
