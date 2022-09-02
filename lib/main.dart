@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:rubrick/pages/contest_screen.dart';
+import 'package:rubrick/pages/contest.dart';
 import 'package:rubrick/widgets/side_drawer.dart';
 
 import 'colors/color_scheme.dart';

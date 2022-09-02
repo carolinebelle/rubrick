@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../components/group_bar.dart';
-
-const replaceWithFirebase = ["Day 1: Saturday", "Day 2: Sunday"];
+import '../models/contest.dart';
 
 class ContestScreen extends StatelessWidget {
-  final String contestID;
-  const ContestScreen({Key? key, required this.contestID}) : super(key: key);
+  final Contest contest;
+  const ContestScreen({Key? key, required this.contest}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => Center(
@@ -19,7 +18,7 @@ class ContestScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 10.0, horizontal: 5.0),
                 child: SafeArea(
                     child: Text(
-                  contestID,
+                  contest.title,
                   style: Theme.of(context).textTheme.headline4!.apply(
                       fontWeightDelta: 3,
                       color: Theme.of(context).colorScheme.onBackground),
@@ -29,11 +28,11 @@ class ContestScreen extends StatelessWidget {
             Expanded(
                 child: ListView.separated(
                     primary: false,
-                    itemBuilder: (context, index) => GroupBar(
-                        title: replaceWithFirebase[index], index: index),
+                    itemBuilder: (context, index) =>
+                        GroupBar(title: contest.groups[index], index: index),
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 10),
-                    itemCount: 2))
+                    itemCount: contest.groups.length))
           ],
         ),
       );

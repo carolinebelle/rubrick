@@ -5,53 +5,50 @@ class ContestFields {
     id,
     title,
     categories,
-    gradingScale,
     applicants,
-    startDate,
-    endDate,
-    isLocked
+    isLocked,
+    judges,
+    groups
   ];
 
   static const String id = '_id';
   static const String title = 'title';
   static const String categories = 'categories';
-  static const String gradingScale = 'gradingScale';
   static const String applicants = 'applicants';
-  static const String startDate = 'startDate';
-  static const String endDate = 'endDate';
   static const String isLocked = 'isLocked';
+  static const String judges = 'judges';
+  static const String groups = 'groups';
 }
 
 class Contest {
   final String? id;
   final String title;
   final List<String> categories;
-  final List<String> gradingScale;
-  final DateTime startDate;
-  DateTime endDate;
   bool isLocked;
   List<String> applicants;
+  List<String> judges;
+  List<String> groups;
 
   Contest({
     this.id,
     required this.title,
     required this.categories,
-    required this.gradingScale,
-    required this.endDate,
     this.isLocked = false,
     DateTime? startDate,
     List<String>? applicants,
-  })  : startDate = startDate ?? DateTime.now(),
-        applicants = applicants ?? [];
+    List<String>? judges,
+    List<String>? groups,
+  })  : applicants = applicants ?? [],
+        judges = judges ?? [],
+        groups = groups ?? [];
 
   Map<String, dynamic> toJson() => {
         ContestFields.id: id,
-        ContestFields.startDate: startDate.toIso8601String(),
-        ContestFields.endDate: endDate.toIso8601String(),
         ContestFields.title: title,
         ContestFields.categories: json.encode(categories),
-        ContestFields.gradingScale: json.encode(gradingScale),
         ContestFields.applicants: json.encode(applicants),
+        ContestFields.judges: json.encode(judges),
+        ContestFields.groups: json.encode(groups),
         ContestFields.isLocked: isLocked ? 1 : 0,
       };
 
@@ -59,36 +56,37 @@ class Contest {
           {String? id,
           String? title,
           List<String>? categories,
-          List<String>? gradingScale,
           DateTime? startDate,
           DateTime? endDate,
           bool? isLocked,
-          List<String>? applicants}) =>
+          List<String>? applicants,
+          List<String>? judges,
+          List<String>? groups}) =>
       Contest(
           id: id ?? this.id,
           title: title ?? this.title,
           categories: categories ?? this.categories,
-          gradingScale: gradingScale ?? this.gradingScale,
           startDate: startDate ?? DateTime.now(),
-          endDate: endDate ?? this.endDate,
           isLocked: isLocked ?? false,
-          applicants: applicants ?? this.applicants);
+          applicants: applicants ?? this.applicants,
+          judges: applicants ?? this.judges,
+          groups: applicants ?? this.groups);
 
   static Contest fromJson(Map<String, Object?> jsonObj) => Contest(
       id: jsonObj[ContestFields.id] as String?,
-      startDate: DateTime.parse(jsonObj[ContestFields.startDate] as String),
-      endDate: DateTime.parse(jsonObj[ContestFields.endDate] as String),
       title: jsonObj[ContestFields.title] as String,
-      gradingScale: List<String>.from(
-          json.decode(jsonObj[ContestFields.gradingScale] as String)),
       categories: List<String>.from(
           json.decode(jsonObj[ContestFields.categories] as String)),
       applicants: List<String>.from(
           json.decode(jsonObj[ContestFields.applicants] as String)),
+      judges: List<String>.from(
+          json.decode(jsonObj[ContestFields.judges] as String)),
+      groups: List<String>.from(
+          json.decode(jsonObj[ContestFields.groups] as String)),
       isLocked: jsonObj[ContestFields.isLocked] == 1);
 
   @override
   String toString() {
-    return 'Todo{id: $id, title: $title, startDate: $startDate, endDate: $endDate, categories: $categories, gradingScale: $gradingScale, isLocked: $isLocked, applicants: $applicants}';
+    return 'Todo{id: $id, title: $title, categories: $categories, isLocked: $isLocked, applicants: $applicants, groups: $groups, judges: $judges}';
   }
 }
