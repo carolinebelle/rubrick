@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "663572642581",
+    "project_id": "rubrick-5a2b8",
+    "storage_bucket": "rubrick-5a2b8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663572642581:android:40dcde31dc7806af4a871c",
+        "android_client_info": {
+          "package_name": "com.example.rubrick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "663572642581-mhcr7j5anja2s7jhu9msiatc7gme63vv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0c9433ls4W6M9K4ZcLeNLSRN82q2WrXs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "663572642581-mhcr7j5anja2s7jhu9msiatc7gme63vv.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "663572642581-go41k5l5hkm66tb4pafgennqc2pqs5nk.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.rubrick"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

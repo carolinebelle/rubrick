@@ -4,6 +4,7 @@ import 'package:rubrick/widgets/side_drawer.dart';
 
 import 'components/custom_fab.dart';
 import 'mock.dart';
+import 'models/contest.dart';
 import 'responsive/dimensions.dart';
 import 'widgets/rankable_list.dart';
 import 'pages/round_table.dart';
@@ -18,6 +19,7 @@ class _NavigationState extends State<Navigation> {
   bool isMyTurn = false; //based on Firebase data
   bool isRanking = true; //based on Firebase data
   bool isLive = true; //based on Firebase data
+  Contest? contest;
 
   void _actionButtonPress() {
     print("To be implemented");
