@@ -2,9 +2,6 @@ import "package:flutter/material.dart";
 import 'package:rubrick/components/contest_form/page_1.dart';
 import 'package:rubrick/components/contest_form/page_2.dart';
 import 'package:rubrick/components/contest_form/page_3.dart';
-import 'package:rubrick/components/progress_bar.dart';
-
-//  3 step process to create a new "contest"
 
 class CreateContest extends StatefulWidget {
   final Function callback;
@@ -30,28 +27,37 @@ class _CreateContestState extends State<CreateContest> {
     switch (pageNum) {
       case 2:
         return PageTwo(
-            callback: widget.callback,
-            setPage: (page) {
-              setState(() {
+          callback: widget.callback,
+          setPage: (page) {
+            setState(
+              () {
                 this.page = page;
-              });
-            });
+              },
+            );
+          },
+        );
       case 3:
         return PageThree(
-            callback: widget.callback,
-            setPage: (page) {
-              setState(() {
+          callback: widget.callback,
+          setPage: (page) {
+            setState(
+              () {
                 this.page = page;
-              });
-            });
+              },
+            );
+          },
+        );
       default:
         return PageOne(
-            callback: widget.callback,
-            setPage: (page) {
-              setState(() {
+          callback: widget.callback,
+          setPage: (page) {
+            setState(
+              () {
                 this.page = page;
-              });
-            });
+              },
+            );
+          },
+        );
     }
   }
 }

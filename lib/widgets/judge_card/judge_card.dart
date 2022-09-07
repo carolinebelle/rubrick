@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rubrick/components/grade_box.dart';
-import 'package:rubrick/widgets/judge_card/judge_column.dart';
 
 import '../../components/rounded_border.dart';
 import 'category.dart';

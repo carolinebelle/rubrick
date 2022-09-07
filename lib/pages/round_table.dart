@@ -29,18 +29,21 @@ class _RoundTableState extends State<RoundTable> {
           ),
         ),
         Expanded(
-            flex: 12,
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Expanded(child: _buildSideBar(context)),
-                Expanded(
-                  flex: 4,
-                  child: Padding(
-                      padding: const EdgeInsets.all(10), child: JudgeCard()),
+          flex: 12,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(child: _buildSideBar(context)),
+              Expanded(
+                flex: 4,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: JudgeCard(),
                 ),
-              ],
-            ))
+              ),
+            ],
+          ),
+        ),
       ],
     );
   }

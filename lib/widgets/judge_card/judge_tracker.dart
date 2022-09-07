@@ -24,13 +24,14 @@ class _JudgeTrackerState extends State<JudgeTracker> {
                     children: [
                       Divider(color: colors.primary, thickness: 5),
                       Expanded(
-                          child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          for (int i = 0; i < 8; i++)
-                            const Icon(Icons.run_circle_outlined, size: 60)
-                        ],
-                      )),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            for (int i = 0; i < 8; i++)
+                              const Icon(Icons.run_circle_outlined, size: 60)
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                 ),

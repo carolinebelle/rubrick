@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:rubrick/models/applicant.dart';
 
 class ContestFields {
   static final List<String> values = [
@@ -24,10 +25,10 @@ class Contest {
   final String? id;
   final String title;
   final List<String> categories;
-  bool isLocked;
-  List<String> applicants;
+  final List<String> groups;
+  List<Applicant> applicants;
   List<String> judges;
-  List<String> groups;
+  bool isLocked;
 
   Contest({
     this.id,
@@ -35,7 +36,7 @@ class Contest {
     required this.categories,
     this.isLocked = false,
     DateTime? startDate,
-    List<String>? applicants,
+    List<Applicant>? applicants,
     List<String>? judges,
     List<String>? groups,
   })  : applicants = applicants ?? [],
@@ -59,7 +60,7 @@ class Contest {
           DateTime? startDate,
           DateTime? endDate,
           bool? isLocked,
-          List<String>? applicants,
+          List<Applicant>? applicants,
           List<String>? judges,
           List<String>? groups}) =>
       Contest(
@@ -69,15 +70,15 @@ class Contest {
           startDate: startDate ?? DateTime.now(),
           isLocked: isLocked ?? false,
           applicants: applicants ?? this.applicants,
-          judges: applicants ?? this.judges,
-          groups: applicants ?? this.groups);
+          judges: judges ?? this.judges,
+          groups: groups ?? this.groups);
 
   static Contest fromJson(Map<String, Object?> jsonObj) => Contest(
       id: jsonObj[ContestFields.id] as String?,
       title: jsonObj[ContestFields.title] as String,
       categories: List<String>.from(
           json.decode(jsonObj[ContestFields.categories] as String)),
-      applicants: List<String>.from(
+      applicants: List<Applicant>.from(
           json.decode(jsonObj[ContestFields.applicants] as String)),
       judges: List<String>.from(
           json.decode(jsonObj[ContestFields.judges] as String)),

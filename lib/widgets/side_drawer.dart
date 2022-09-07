@@ -17,15 +17,19 @@ class _SideDrawerState extends State<SideDrawer> {
   String selected = "Fellows 2022-23";
 
   void createCallback(bool isCreating) {
-    setState(() {
-      this.isCreating = isCreating;
-    });
+    setState(
+      () {
+        this.isCreating = isCreating;
+      },
+    );
   }
 
   void contestCallback(String contestID) {
-    setState(() {
-      selected = contestID;
-    });
+    setState(
+      () {
+        selected = contestID;
+      },
+    );
   }
 
   @override
@@ -42,9 +46,11 @@ class _SideDrawerState extends State<SideDrawer> {
                 padding: const EdgeInsets.symmetric(vertical: 20),
                 child: TextButton(
                   onPressed: () {
-                    setState(() {
-                      isCreating = true;
-                    });
+                    setState(
+                      () {
+                        isCreating = true;
+                      },
+                    );
                   },
                   child: const Text(
                     'Create New',

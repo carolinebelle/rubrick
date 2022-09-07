@@ -40,13 +40,15 @@ class _RankableListState extends State<RankableList> {
           ),
       ],
       onReorder: (int oldIndex, int newIndex) {
-        setState(() {
-          if (oldIndex < newIndex) {
-            newIndex -= 1;
-          }
-          final String item = rankings.removeAt(oldIndex);
-          rankings.insert(newIndex, item);
-        });
+        setState(
+          () {
+            if (oldIndex < newIndex) {
+              newIndex -= 1;
+            }
+            final String item = rankings.removeAt(oldIndex);
+            rankings.insert(newIndex, item);
+          },
+        );
       },
     );
   }

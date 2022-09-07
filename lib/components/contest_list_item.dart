@@ -34,15 +34,5 @@ class ContestListItem extends StatelessWidget {
         },
       ),
     );
-    // return ListTile(
-    //   tileColor: selected ? Colors.red : colors.onSurface,
-    //   hoverColor: colors.onSurface.withAlpha(100),
-    //   contentPadding: const EdgeInsets.all(30),
-    //   selected: selected,
-    //   title: Center(child: Text(title, style: text.headline5)),
-    //   onTap: () {
-    //     callback(title);
-    //   },
-    // );
   }
 }

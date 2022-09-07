@@ -7,13 +7,13 @@ import 'grade_picker.dart';
 class CategoryBar extends StatefulWidget {
   final int gradeIndexSelected;
   final String tag;
-  final int groupIndex;
+  final int groupID;
   final String title;
   const CategoryBar(
       {Key? key,
       required this.gradeIndexSelected,
       required this.tag,
-      required this.groupIndex,
+      required this.groupID,
       required this.title})
       : super(key: key);
 
@@ -33,7 +33,7 @@ class _CategoryBarState extends State<CategoryBar> {
         Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: widget.groupIndex % 2 == 0
+              color: widget.groupID % 2 == 0
                   ? Theme.of(context).colorScheme.secondary.withAlpha(26)
                   : Theme.of(context).colorScheme.primary.withAlpha(26)),
           child: Padding(
@@ -91,7 +91,7 @@ class _CategoryBarState extends State<CategoryBar> {
   Widget _buildOpen(BuildContext context) => Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          color: widget.groupIndex % 2 == 0
+          color: widget.groupID % 2 == 0
               ? Theme.of(context)
                   .colorScheme
                   .onSecondaryContainer

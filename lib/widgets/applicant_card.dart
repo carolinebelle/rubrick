@@ -1,32 +1,12 @@
 import "package:flutter/material.dart";
 import 'package:rubrick/components/applicant_photo.dart';
 import 'package:rubrick/components/category_bar.dart';
-
+import '../models/score_card.dart';
 import '../responsive/dimensions.dart';
 
-// detailed view of an applicant
 class ApplicantCard extends StatefulWidget {
-  final String name;
-  final int groupIndex;
-  final List<int> gradeIndices;
-  final List<String> categories = const [
-    "achievement",
-    "technical",
-    "academic",
-    "personality"
-  ];
-  final List<String> categoryTitles = const [
-    "Achievements",
-    "Technical Ability",
-    "Academic Potential",
-    "Personality"
-  ];
-  const ApplicantCard(
-      {Key? key,
-      required this.name,
-      required this.groupIndex,
-      required this.gradeIndices})
-      : super(key: key);
+  final ScoreCard card;
+  const ApplicantCard({Key? key, required this.card}) : super(key: key);
 
   @override
   State<ApplicantCard> createState() => _ApplicantCardState();
@@ -35,27 +15,32 @@ class ApplicantCard extends StatefulWidget {
 class _ApplicantCardState extends State<ApplicantCard> {
   @override
   Widget build(BuildContext context) {
+    String name = widget.card.applicant.name;
+    int groupID = widget.card.applicant.groupID;
+    List<int> scores = widget.card.scores;
+    List<String> categories = widget.card.contest.categories;
+
     Widget mobileBody = ListView(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.all(10),
           child: Center(
             child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.25,
-                child: ApplicantPhoto(
-                    name: 'lib/assets/profile.png', group: widget.groupIndex)),
+              height: MediaQuery.of(context).size.height * 0.25,
+              child: ApplicantPhoto(
+                  name: 'lib/assets/profile.png', group: groupID),
+            ),
           ),
         ),
         const SizedBox(height: 10),
-        for (int index = 0; index < widget.categories.length; index += 1)
+        for (int index = 0; index < categories.length; index += 1)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 5),
             child: CategoryBar(
-              gradeIndexSelected: widget.gradeIndices[index],
-              tag:
-                  "${widget.name}-${widget.groupIndex}-selected-${widget.categories[index]}",
-              groupIndex: widget.groupIndex,
-              title: widget.categoryTitles[index],
+              gradeIndexSelected: scores[index],
+              tag: "$name-$groupID-selected-${categories[index]}",
+              groupID: groupID,
+              title: categories[index],
             ),
           )
       ],
@@ -69,24 +54,21 @@ class _ApplicantCardState extends State<ApplicantCard> {
         children: <Widget>[
           Flexible(
               child: ApplicantPhoto(
-                  name: 'lib/assets/profile.png', group: widget.groupIndex)),
+                  name: 'lib/assets/profile.png', group: groupID)),
           const SizedBox(width: 50),
           Flexible(
             child: Center(
               child: ListView(
                 primary: false,
                 children: [
-                  for (int index = 0;
-                      index < widget.categories.length;
-                      index += 1)
+                  for (int index = 0; index < categories.length; index += 1)
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 5),
                       child: CategoryBar(
-                        gradeIndexSelected: widget.gradeIndices[index],
-                        tag:
-                            "${widget.name}-${widget.groupIndex}-selected-${widget.categories[index]}",
-                        groupIndex: widget.groupIndex,
-                        title: widget.categoryTitles[index],
+                        gradeIndexSelected: scores[index],
+                        tag: "$name-$groupID-selected-${categories[index]}",
+                        groupID: groupID,
+                        title: categories[index],
                       ),
                     )
                 ],
@@ -97,12 +79,14 @@ class _ApplicantCardState extends State<ApplicantCard> {
       ),
     );
 
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth > mobileWidth) {
-        return desktopBody;
-      } else {
-        return mobileBody;
-      }
-    });
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth > mobileWidth) {
+          return desktopBody;
+        } else {
+          return mobileBody;
+        }
+      },
+    );
   }
 }
