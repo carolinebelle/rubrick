@@ -4,12 +4,18 @@ import 'colors/color_scheme.dart';
 import 'navigation.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'firebase/setup.dart';
+
+const bool USE_EMULATOR = true;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  if (USE_EMULATOR) await connectToFirebaseEmulator();
 
   runApp(const MyApp());
 }

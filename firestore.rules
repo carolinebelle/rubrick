@@ -1,0 +1,164 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isFlaggedUser(){
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid)/secure/reports) && get(/databases/$(database)/documents/users/$(request.auth.uid)/secure/reports).data.strikes > 3;
+    }
+
+    // Secure by default
+    match /{document=**}{
+      allow read: if false;
+      allow write: if false;
+    }
+    match /users/{user}{
+      function validUserFields() {
+        return request.resource.data.keys().hasOnly(
+          ['name', 'peers', 'contests', 'blocked', 'pic_url'])
+          && validUserFieldTypes(request.resource.data);
+      }
+      function validUserFieldTypes(docData) {
+       return docData.name is map &&
+        docData.name.first is string && 
+        docData.name.last is string &&
+        docData.get('peers', []) is list &&
+        docData.get('contests', []) is list &&
+        docData.get('blocked', []) is list &&
+        docData.get('pic_url', '') is string;
+      }
+      function isPeer(){
+        return request.auth.uid in resource.data.peers;
+      }
+      allow read: if request.auth.uid == user || (isPeer() && !isFlaggedUser());
+      allow write: if request.auth.uid == user && validUserFields() && !isFlaggedUser();
+
+      match /invites/{invite}{
+        function validInviteFields() {
+          return request.resource.data.keys().hasOnly(
+          ['contestID']) && validInviteFieldTypes(request.resource.data);
+        }
+        function validInviteFieldTypes(docData) {
+          return docData.contestID is string;
+        }
+        function isBlocked(){
+          return "blocked" in get(/databases/$(database)/documents/users/$(user)).data && request.auth.uid in get(/databases/$(database)/documents/users/$(user)).data.blocked;
+        }
+        function isContestAdmin(contestID){
+          return exists(/databases/$(database)/documents/contests/$(contestID)) && request.auth.uid == get(/databases/$(database)/documents/contests/$(contestID)).data.admin;
+        }
+        allow read, delete: if request.auth.uid == user;
+        allow create: if request.auth.uid != null && isContestAdmin(request.resource.data.contestID) && !isFlaggedUser() && !isBlocked() && validInviteFields();
+      }
+      match /secure/reports{
+        function validReportFields() {
+          return request.resource.data.keys().hasOnly(
+          ['strikes', 'reporters']) && validReportFieldTypes(request.resource.data);
+        }
+        function validReportFieldTypes(docData) {
+          return docData.strikes is number && docData.reporters is list;
+        }
+        function initialReportCreate(){
+          return !exists(/databases/$(database)/documents/users/$(user)/secure/reports) &&
+            validReportFields() && 
+            request.resource.data.strikes == 1 &&
+            request.resource.data.reporters[0] == request.auth.uid;
+        }
+        function repeatReporter(){
+          return request.auth.uid in resource.data.reporters;
+        }
+        function validReport(){
+          return true;
+          // return !repeatReporter() && 
+          //   request.resource.data.strikes == resource.data.strikes+1 &&
+          //   request.resource.data.reporters.size() == resource.data.reporters.size() + 1 &&
+          //   request.resource.data.reporters.removeAll(resource.data.reporters)[0] == request.auth.uid &&
+          //   request.resource.data.reporters[request.resource.data.reporters.size()-1] is string &&
+          //   validReportFields();
+        }
+        allow read: if request.auth.uid != null;
+        allow create, update: if request.auth.uid!= user && (initialReportCreate() || validReport());
+      }
+    }
+
+    match /contests/{contest} {
+      function validContestFields() {
+        return request.resource.data.keys().hasOnly(
+          ['admin', 'applicants',  'candidate_groups','categories', 'isLive', 'isRanking', 'isLocked', 'judges',  'title', 'userTurn'])
+          && validContestFieldTypes(request.resource.data);
+      }
+
+      function validContestUpdateByJudge() {
+        return isJudge() && request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['userTurn']) && validTurnUpdate(resource.data, request.resource.data);
+      }
+
+      function isJudge(){
+        return request.auth.uid in resource.data.judges;
+      }
+
+      function validTurnUpdate(previous, next) {
+       return ( previous.get('userTurn','') == '' && next.userTurn == request.auth.uid) || 
+        (previous.userTurn == request.auth.uid && next.userTurn == "");
+      }
+
+      function isAdmin(){
+        return request.auth.uid == resource.data.admin;
+      }
+
+      function validContestFieldTypes(docData) {
+       return docData.admin is string &&
+            docData.get('applicants', {}) is map &&
+            docData.get('candidate_groups', []) is list &&
+            docData.get('categories', []) is list &&
+            docData.get('isLive', true) is bool &&
+            docData.get('isRanking', true) is bool &&
+            docData.get('isLocked', true) is bool &&
+            docData.get('judges', []) is list &&
+            docData.get('title', '') is string &&
+            docData.get('userTurn', '') is string;
+      }
+
+      function willBeAdmin(){
+        return request.auth.uid == request.resource.data.admin;
+      }
+
+      allow read: if isJudge();
+      allow read: if isAdmin();
+      allow delete: if isAdmin()  && ! isFlaggedUser();
+      allow update: if isAdmin() && willBeAdmin() && ! isFlaggedUser() && validContestFields();
+      allow update: if validContestUpdateByJudge() && ! isFlaggedUser();
+      allow create: if willBeAdmin() && ! isFlaggedUser() && validContestFields();
+    
+    	match /score_cards/{card}{
+        function isAuthor(){
+          return request.auth.uid == resource.data.author;
+        }
+        function isAdmin(){
+          return request.auth.uid == get(/databases/$(database)/documents/contests/$(contest)).data.admin;
+        }
+        function willBeAuthor(){
+          return request.auth.uid == request.resource.data.author;
+        }
+        function validScoreCardFields(){
+          return request.resource.data.keys().hasOnly(
+          ['applicant', 'author', 'notes', 'published', 'scores'])
+          && validScoreCardFieldsTypes(request.resource.data);
+        }
+        function validScoreCardFieldsTypes(docData){
+          return docData.applicant is string &&
+            docData.author is string &&
+            docData.get('notes', []) is list &&
+            docData.get('published', true) is bool &&
+            docData.get('scores', []) is list;
+        }
+        function isPeerJudge(){
+          return request.auth.uid in get(/databases/$(database)/documents/contests/$(contest)).data.judges;
+        }
+    		allow read: if isAuthor() || isAdmin();
+    		allow delete: if isAuthor() || isAdmin() && ! isFlaggedUser();
+        allow update: if isAuthor() && willBeAuthor() && ! isFlaggedUser() && validScoreCardFields();
+        allow create: if willBeAuthor() && ! isFlaggedUser() && validScoreCardFields();
+    		allow read: if resource.data.published && isPeerJudge();
+    	}
+    }
+  }
+}
