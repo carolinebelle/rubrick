@@ -113,6 +113,7 @@ class _ApplicantListItemState extends State<ApplicantListItem> {
               card: ScoreCard(
                   applicant: widget.applicant,
                   contest: widget.contest,
+                  author: "Caroline Yoon",
                   scores: scores)),
         ),
       ),
