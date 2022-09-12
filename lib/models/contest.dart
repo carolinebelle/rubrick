@@ -90,4 +90,13 @@ class Contest {
   String toString() {
     return 'Todo{id: $id, title: $title, categories: $categories, isLocked: $isLocked, applicants: $applicants, groups: $groups, judges: $judges}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    return other is Contest && id == other.id;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }
