@@ -1,16 +1,15 @@
-# rubrick
 
-A new Flutter project.
+# Applicant Grading Application - Flutter
 
-## Getting Started
+This application is built using Flutter, a popular open-source framework for developing mobile applications. It is a cross-platform application that is compatible with both iOS and Android devices. The app is designed to streamline the process of grading applicants based on their performance in various rounds of an interview.
 
-This project is a starting point for a Flutter application.
+### Please note: This application is currently a work in progress and some features may not be fully implemented yet.
 
-A few resources to get you started if this is your first Flutter project:
+## Features
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Efficient applicant grading system
+- Structured grading criteria
+- Round-table collaborative ranking
+- Real-time data management with Firebase
+- Cross-platform compatibility (iOS, Android)
+- (More features coming soon...)
